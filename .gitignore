@@ -1,0 +1,8 @@
+**/*.so
+**/__pycache__
+**/*.pyc
+build/
+dist/
+cython_debug/
+batemaneq/_bateman.cpp
+MANIFEST
