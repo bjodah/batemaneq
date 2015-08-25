@@ -27,7 +27,6 @@ int main(int argc, char *argv[]){
     std::vector<Real_t> y0 {{ 1.0, 1.0, 1.0 }};
     std::vector<Real_t> lmbd {{ 2.0, 3.0, 4.0 }};
     Real_t t = 1.0;
-    //    Real_t (*exp_ptr)(Real_t) = &(exp_cb);
     auto y = bateman::bateman_full(y0, lmbd, t, exp_cb);
 
     std::vector<Real_t> yref
