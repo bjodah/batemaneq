@@ -4,7 +4,7 @@
 build/
 dist/
 cython_debug/
-batemaneq/_bateman.cpp
+batemaneq/_bateman_double.cpp
 MANIFEST
 include/tests/test_bateman
 .cache/

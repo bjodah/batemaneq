@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from batemaneq import bateman_full
+from batemaneq import bateman_full, bateman_full_arr
 
 decay_analytic = {
     0: lambda y0, k, t: (
@@ -32,3 +32,17 @@ def test_bateman_full():
     yout = bateman_full(y0, k, t, exp=np.exp)
     yref = decay_get_Cref(k, y0, t)
     assert np.allclose(np.asarray(yout).T, yref)
+
+
+def test_bateman_full_arr():
+    k0, k1, k2 = 2.0, 3.0, 4.0
+    k = [k0, k1, k2]
+    y0 = [0.7, 0.3, 0.5]
+    t = np.linspace(0, 10, 17)
+    yout = bateman_full_arr(np.asarray(y0), np.asarray(k), t)
+    yref = decay_get_Cref(k, y0, t)
+    assert np.allclose(yout, yref)
+
+
+if __name__ == '__main__':
+    test_bateman_full_arr()

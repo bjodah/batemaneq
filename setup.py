@@ -17,11 +17,12 @@ pkg_name = 'batemaneq'
 ext_modules = []
 if '--help' not in sys.argv[1:] and sys.argv[1] not in (
             '--help-commands', 'egg_info', 'clean', '--version'):
-    USE_CYTHON = os.path.exists('batemaneq/_bateman.pyx')
+    USE_CYTHON = os.path.exists('batemaneq/_bateman_double.pyx')
     ext = '.pyx' if USE_CYTHON else '.cpp'
+    sources = ['src/bateman_double.cpp', 'batemaneq/_bateman_double'+ext]
     ext_modules = [
-        Extension('batemaneq._bateman', ['batemaneq/_bateman'+ext],
-                  language='c++', extra_compile_args=['-std=c++11'])
+        Extension('batemaneq._bateman_double', sources, language='c++',
+                  extra_compile_args=['-std=c++11'], include_dirs=['./include'])
     ]
     if USE_CYTHON:
         from Cython.Build import cythonize
