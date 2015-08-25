@@ -2,11 +2,12 @@
 
 from __future__ import division
 
+
 def bateman_parent(lmbd, t, one=1, zero=0, exp=None):
     n = len(lmbd)
     N = [None]*n
     lmbd_prod = one
-    if exp == None:
+    if exp is None:
         import math
         exp = math.exp
     for i in range(n):
@@ -22,6 +23,7 @@ def bateman_parent(lmbd, t, one=1, zero=0, exp=None):
             sum_k += exp(-lmbd[k]*t)/prod_l
         N[i] = lmbd_prod*sum_k
     return N
+
 
 def bateman_full(y0s, lmbd, t, one=1, zero=0, exp=None):
     n = len(lmbd)

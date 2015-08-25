@@ -7,5 +7,6 @@ script:
   - python3 setup.py build_ext --inplace
   - PYTHONPATH=$(pwd) python2 -m pytest
   - PYTHONPATH=$(pwd) python3 -m pytest
+  - pep8 .
   - python2 setup.py sdist
   - scp dist/* batemaneq@hera.physchem.kth.se:~/
