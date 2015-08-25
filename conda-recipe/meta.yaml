@@ -1,27 +1,32 @@
 package:
-    name: batemaneq
-    version: 0.1.0.git
+  name: batemaneq
+  version: 0.1.0.git
 
 source:
-    path: ../
+  path: ../
 
 build:
-    number: 0
+  number: 0
 
 requirements:
-    build:
-        - python
-        - numpy
-        - boost
-        - cython
-    run:
-        - numpy
-        - python
+  build:
+    - python
+    - numpy
+    - cython
+  run:
+    - numpy
+    - python
+
 
 test:
-    imports:
-        - batemaneq
+  requires:
+    - python
+    - boost  # multiprecision
+    - cython
+
+  imports:
+    - batemaneq
 
 about:
-    home: https://github.com/bjodah/batemaneq
-    license: Simplified BSD license
+  home: https://github.com/bjodah/batemaneq
+  license: Simplified BSD license

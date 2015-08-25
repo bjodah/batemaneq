@@ -22,7 +22,8 @@ if '--help' not in sys.argv[1:] and sys.argv[1] not in (
     sources = ['src/bateman_double.cpp', 'batemaneq/_bateman_double'+ext]
     ext_modules = [
         Extension('batemaneq._bateman_double', sources, language='c++',
-                  extra_compile_args=['-std=c++11'], include_dirs=['./include'])
+                  extra_compile_args=['-std=c++11'],
+                  include_dirs=['./include'])
     ]
     if USE_CYTHON:
         from Cython.Build import cythonize
