@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
 import numpy as np
-from batemaneq import bateman_full, bateman_full_arr
+from batemaneq import bateman_full, bateman_full_arr, bateman_parent
+import pytest
 
 decay_analytic = {
     0: lambda y0, k, t: (
@@ -43,6 +45,18 @@ def test_bateman_full_arr():
     yref = decay_get_Cref(k, y0, t)
     assert np.allclose(yout, yref)
 
+def _yi1(i, p, a, binom):
+    return binom(p+i-1, p) * a**(-1-p) * ((a-1)/a)**(i-1)
 
-if __name__ == '__main__':
-    test_bateman_full_arr()
+
+
+@pytest.mark.parametrize('p', (0, 1, 2, 3, 4, 5))
+def test_basteman_parent(p):
+    from scipy.special import binom
+    from math import log
+    N = 32
+    a = 27
+    lmbd = [(i+p+1)*log(a) for i in range(N)]
+    bp = bateman_parent(lmbd, 1)
+    for i, v in enumerate(bp, 1):
+        assert abs(v - _yi1(i, p, a, binom)) < 1e-14
