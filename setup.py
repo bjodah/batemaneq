@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Tested with boost v1.59.0
+# Tested with boost GCC 4.8.3
 
 import os
 import shutil
@@ -15,7 +15,8 @@ pkg_name = 'batemaneq'
 
 # Cythonize .pyx file if it exists (not in source distribution)
 ext_modules = []
-if '--help' not in sys.argv[1:] and sys.argv[1] not in (
+
+if len(sys.argv) > 1 and '--help' not in sys.argv[1:] and sys.argv[1] not in (
             '--help-commands', 'egg_info', 'clean', '--version'):
     USE_CYTHON = os.path.exists('batemaneq/_bateman_double.pyx')
     ext = '.pyx' if USE_CYTHON else '.cpp'
@@ -30,22 +31,22 @@ if '--help' not in sys.argv[1:] and sys.argv[1] not in (
         ext_modules = cythonize(ext_modules, include_path=['./include'],
                                 gdb_debug=True)
 
-PYODEINT_RELEASE_VERSION = os.environ.get('PYODEINT_RELEASE_VERSION', '')
+BATEMANEQ_RELEASE_VERSION = os.environ.get('BATEMANEQ_RELEASE_VERSION', '')
 
 # http://conda.pydata.org/docs/build.html#environment-variables-set-during-the-build-process
 CONDA_BUILD = os.environ.get('CONDA_BUILD', '0') == '1'
 if CONDA_BUILD:
     try:
-        PYODEINT_RELEASE_VERSION = 'v' + open(
+        BATEMANEQ_RELEASE_VERSION = 'v' + open(
             '__conda_version__.txt', 'rt').readline().rstrip()
     except IOError:
         pass
 
-release_py_path = os.path.join(pkg_name, 'release.py')
+release_py_path = os.path.join(pkg_name, '_release.py')
 
-if len(PYODEINT_RELEASE_VERSION) > 1 and PYODEINT_RELEASE_VERSION[0] == 'v':
+if len(BATEMANEQ_RELEASE_VERSION) > 1 and BATEMANEQ_RELEASE_VERSION[0] == 'v':
     TAGGED_RELEASE = True
-    __version__ = PYODEINT_RELEASE_VERSION[1:]
+    __version__ = BATEMANEQ_RELEASE_VERSION[1:]
 else:
     TAGGED_RELEASE = False
     # read __version__ attribute from release.py:
@@ -62,10 +63,11 @@ classifiers = [
 setup_kwargs = dict(
     name=pkg_name,
     version=__version__,
-    description='Python binding for odeint from boost.',
+    description="Python package for evaluating Bateman's equation",
     classifiers=classifiers,
     author='Björn Dahlgren',
     author_email='bjodah@DELETEMEgmail.com',
+    license='BSD',
     url='https://github.com/bjodah/' + pkg_name,
     packages=[pkg_name],
     ext_modules=ext_modules,
@@ -76,7 +78,7 @@ if __name__ == '__main__':
     try:
         if TAGGED_RELEASE:
             # Same commit should generate different sdist
-            # depending on tagged version (set PYODEINT_RELEASE_VERSION)
+            # depending on tagged version (set BATEMANEQ_RELEASE_VERSION)
             # this will ensure source distributions contain the correct version
             shutil.move(release_py_path, release_py_path+'__temp__')
             open(release_py_path, 'wt').write(
