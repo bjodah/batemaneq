@@ -8,5 +8,6 @@ script:
   - PYTHONPATH=$(pwd) python2 -m pytest
   - PYTHONPATH=$(pwd) python3 -m pytest
   - pep8 .
+  - python2 -m doctest README.rst
   - python2 setup.py sdist
-  - scp dist/* batemaneq@hera.physchem.kth.se:~/
+  - scp dist/* batemaneq@hera.physchem.kth.se:~/public_html/
