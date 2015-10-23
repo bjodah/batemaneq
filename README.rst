@@ -5,6 +5,10 @@ batemaneq
 .. image:: http://hera.physchem.kth.se:8080/github.com/bjodah/batemaneq/status.svg?branch=master
    :target: http://hera.physchem.kth.se:8080/github.com/bjodah/batemaneq
    :alt: Build status
+.. image:: https://img.shields.io/pypi/v/batemaneq.svg
+   :target: https://pypi.python.org/pypi/batemaneq
+   :alt: PyPI version
+
 
 ``batemaneq`` provides a `C++ implementation <include/bateman.hpp>`_ of the `Bateman equation <https://en.wikipedia.org/wiki/Bateman_Equation>`_,
 and a `Python <http://www.python.org>`_ bidning thereof.
