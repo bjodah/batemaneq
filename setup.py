@@ -53,7 +53,7 @@ else:
     exec(open(release_py_path).read())
 
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
     'Topic :: Scientific/Engineering',
@@ -64,13 +64,14 @@ tests = [
     'batemaneq.tests',
 ]
 
-descr = 'Python binding for kinsol from the sundials library.'
 long_description = open('README.rst').read()
+with open(os.path.join(pkg_name, '__init__.py')) as f:
+    short_description = f.read().split('"""')[1]
 
 setup_kwargs = dict(
     name=pkg_name,
     version=__version__,
-    description="Python package for evaluating Bateman's equation",
+    description=short_description,
     classifiers=classifiers,
     author='Björn Dahlgren',
     author_email='bjodah@DELETEMEgmail.com',
