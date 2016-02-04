@@ -8,3 +8,4 @@ batemaneq/_bateman_double.cpp
 MANIFEST
 include/tests/test_bateman
 .cache/
+doc/
