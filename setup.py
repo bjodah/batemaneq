@@ -60,6 +60,13 @@ classifiers = [
     'Topic :: Scientific/Engineering :: Mathematics',
 ]
 
+tests = [
+    'batemaneq.tests',
+]
+
+descr = 'Python binding for kinsol from the sundials library.'
+long_description = open('README.rst').read()
+
 setup_kwargs = dict(
     name=pkg_name,
     version=__version__,
@@ -69,7 +76,7 @@ setup_kwargs = dict(
     author_email='bjodah@DELETEMEgmail.com',
     license='BSD',
     url='https://github.com/bjodah/' + pkg_name,
-    packages=[pkg_name],
+    packages=[pkg_name] + tests,
     ext_modules=ext_modules,
     include_dirs=[np.get_include(), './include']
 )

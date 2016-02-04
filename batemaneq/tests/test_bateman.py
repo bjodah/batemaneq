@@ -45,9 +45,9 @@ def test_bateman_full_arr():
     yref = decay_get_Cref(k, y0, t)
     assert np.allclose(yout, yref)
 
+
 def _yi1(i, p, a, binom):
     return binom(p+i-1, p) * a**(-1-p) * ((a-1)/a)**(i-1)
-
 
 
 @pytest.mark.parametrize('p', (0, 1, 2, 3, 4, 5))
