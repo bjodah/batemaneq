@@ -1,13 +1,13 @@
 batemaneq
 =========
 
-.. image:: http://hera.physchem.kth.se:8080/github.com/bjodah/batemaneq/status.svg?branch=master
-   :target: http://hera.physchem.kth.se:8080/github.com/bjodah/batemaneq
+.. image:: http://hera.physchem.kth.se:9090/api/badges/bjodah/batemaneq/status.svg
+   :target: http://hera.physchem.kth.se:9090/bjodah/batemaneq
    :alt: Build status
 .. image:: https://img.shields.io/pypi/v/batemaneq.svg
    :target: https://pypi.python.org/pypi/batemaneq
    :alt: PyPI version
-.. image:: https://img.shields.io/badge/python-2.7,3.4-blue.svg
+.. image:: https://img.shields.io/badge/python-2.7,3.4,3.5-blue.svg
    :target: https://www.python.org/
    :alt: Python version
 .. image:: https://img.shields.io/pypi/l/batemaneq.svg
