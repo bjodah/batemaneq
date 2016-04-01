@@ -3,6 +3,7 @@
 
 # Tested with boost 1.59, GCC 4.8.3
 
+import io
 import os
 import shutil
 import sys
@@ -43,8 +44,8 @@ RELEASE_VERSION = os.environ.get('BATEMANEQ_RELEASE_VERSION', '')
 CONDA_BUILD = os.environ.get('CONDA_BUILD', '0') == '1'
 if CONDA_BUILD:
     try:
-        RELEASE_VERSION = 'v' + open(
-            '__conda_version__.txt', 'rt').readline().rstrip()
+        RELEASE_VERSION = 'v' + io.open('__conda_version__.txt', 'rt',
+                                        encoding='utf-8').readline().rstrip()
     except IOError:
         pass
 
@@ -56,7 +57,7 @@ if len(RELEASE_VERSION) > 1 and RELEASE_VERSION[0] == 'v':
 else:
     TAGGED_RELEASE = False
     # read __version__ attribute from release.py:
-    exec(open(release_py_path).read())
+    exec(io.open(release_py_path, encoding='utf-8').read())
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -70,10 +71,12 @@ tests = [
     'batemaneq.tests',
 ]
 
-with open(_path_under_setup(pkg_name, '__init__.py'), 'rt') as f:
+with io.open(_path_under_setup(pkg_name, '__init__.py'),
+             'rt', encoding='utf-8') as f:
     short_description = f.read().split('"""')[1].split('\n')[1]
 assert 10 < len(short_description) < 255
-long_description = open(_path_under_setup('README.rst')).read()
+long_description = io.open(_path_under_setup('README.rst'),
+                           encoding='utf-8').read()
 assert len(long_description) > 100
 
 setup_kwargs = dict(
@@ -100,7 +103,7 @@ if __name__ == '__main__':
             # depending on tagged version (set BATEMANEQ_RELEASE_VERSION)
             # this will ensure source distributions contain the correct version
             shutil.move(release_py_path, release_py_path+'__temp__')
-            open(release_py_path, 'wt').write(
+            io.open(release_py_path, 'wt', encoding='utf-8').write(
                 "__version__ = '{}'\n".format(__version__))
         setup(**setup_kwargs)
     finally:
