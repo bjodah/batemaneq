@@ -35,8 +35,7 @@ if len(sys.argv) > 1 and '--help' not in sys.argv[1:] and sys.argv[1] not in (
     ]
     if USE_CYTHON:
         from Cython.Build import cythonize
-        ext_modules = cythonize(ext_modules, include_path=['./include'],
-                                gdb_debug=True)
+        ext_modules = cythonize(ext_modules, include_path=['./include'])
 
 RELEASE_VERSION = os.environ.get('BATEMANEQ_RELEASE_VERSION', '')
 

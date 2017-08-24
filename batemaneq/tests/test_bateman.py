@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 import numpy as np
-from batemaneq import bateman_full, bateman_full_arr, bateman_parent
+from batemaneq import (
+    bateman_full, bateman_full_arr, bateman_parent, bateman_parent_arr
+)
 import pytest
 
 decay_analytic = {
@@ -36,14 +38,23 @@ def test_bateman_full():
     assert np.allclose(np.asarray(yout).T, yref)
 
 
+def test_bateman_parent_arr():
+    k = k0, k1, k2 = 2.0, 3.0, 4.0
+    t = np.linspace(0, 10, 16).reshape((2, 2, 2, 2))
+    yout = bateman_parent_arr(np.asarray(k), t)
+    assert yout.shape == (2, 2, 2, 2, 3)
+    yref = decay_get_Cref(list(k), np.array([1., 0, 0]), np.array(t.flat))
+    assert np.allclose(yout, yref.reshape(yout.shape))
+
+
 def test_bateman_full_arr():
     k0, k1, k2 = 2.0, 3.0, 4.0
     k = [k0, k1, k2]
     y0 = [0.7, 0.3, 0.5]
-    t = np.linspace(0, 10, 17)
-    yout = bateman_full_arr(np.asarray(y0), np.asarray(k), t)
+    t = np.linspace(0, 10, 10)
+    yout = bateman_full_arr(np.asarray(y0), np.asarray(k), t.reshape((2, 5)))
     yref = decay_get_Cref(k, y0, t)
-    assert np.allclose(yout, yref)
+    assert np.allclose(yout, yref.reshape((2, 5, 3)))
 
 
 def _yi1(i, p, a, binom):

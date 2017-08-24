@@ -18,40 +18,27 @@ cdef extern from "bateman_double.h":
 
 
 def bateman_parent(cnp.ndarray[cnp.float64_t, ndim=1] lmbd, tout):
-    cdef int i, nt
+    cdef int skip = 0
     cdef double t
-    if not hasattr(tout, '__len__'):
-        tout = [tout]
-        nt = 1
-    else:
-        nt = len(tout)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2] out = np.empty((nt, lmbd.size))
-    for i in range(nt):
-        bateman_double_parent(lmbd.size, &lmbd[0], tout[i], &out[i, 0])
-
-    if nt == 1:
-        return out.reshape(lmbd.size)
-    else:
-        return out
+    cdef tuple tout_shape = tuple([tout.shape[i] for i in range(tout.ndim)])
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out = np.empty(tout.size*lmbd.size)
+    for idx, t in np.ndenumerate(tout):
+        bateman_double_parent(lmbd.size, &lmbd[0], t, &out[skip])
+        skip += lmbd.size
+    return out.reshape(tout_shape + (lmbd.size,))
 
 
 def bateman_full(cnp.ndarray[cnp.float64_t, ndim=1] y,
-                 cnp.ndarray[cnp.float64_t, ndim=1] lmbd,
-                 tout):
+                 cnp.ndarray[cnp.float64_t, ndim=1] lmbd, tout):
     if y.size != lmbd.size:
         raise ValueError("y and lmbd of mismatching length")
-    cdef int i, nt
+    cdef int i, skip=0
     cdef double t
-    if not hasattr(tout, '__len__'):
-        tout = [tout]
-        nt = 1
-    else:
-        nt = len(tout)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2] out = np.empty((nt, y.size))
-    for i in range(nt):
-        bateman_double_full(y.size, &y[0], &lmbd[0], tout[i], &out[i, 0])
+    cdef tuple tout_shape = tuple([tout.shape[i] for i in range(tout.ndim)])
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out = np.empty(tout.size*lmbd.size)
 
-    if nt == 1:
-        return out.reshape(y.size)
-    else:
-        return out
+    for idx, t in np.ndenumerate(tout):
+        print(skip, out.size)
+        bateman_double_full(y.size, &y[0], &lmbd[0], t, &out[skip])
+        skip += lmbd.size
+    return out.reshape(tout_shape + (y.size,))
