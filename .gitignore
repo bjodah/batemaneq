@@ -9,4 +9,5 @@ MANIFEST
 include/tests/test_bateman
 .cache/
 doc/
-**.egg-info
+.eggs/
+*.egg-info/
