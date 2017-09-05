@@ -1,0 +1,20 @@
+batemaneq package
+=================
+
+.. automodule:: batemaneq
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+batemaneq\.bateman module
+-------------------------
+
+.. automodule:: batemaneq.bateman
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
