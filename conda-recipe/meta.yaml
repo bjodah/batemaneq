@@ -1,9 +1,12 @@
+{% set name = "batemaneq" %}
+{% set version = "0.3.0+git" %}
+
 package:
-  name: batemaneq
-  version: 0.1.0.git
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  path: ../
+  git_url: ../
 
 build:
   number: 0
@@ -14,19 +17,27 @@ requirements:
     - numpy
     - cython
   run:
-    - numpy
     - python
-
+    - numpy
 
 test:
-  requires:
-    - python
-    - boost  # multiprecision
-    - cython
-
   imports:
-    - batemaneq
+    - {{ name }}
+  requires:
+    - pytest
+    - boost
+    - cython
+    - scipy
+  commands:
+    - python -m pytest --pyargs {{ name }}
 
 about:
-  home: https://github.com/bjodah/batemaneq
-  license: Simplified BSD license
+  home: https://github.com/bjodah/{{ name }}
+  license: BSD 2-Clause
+  license_file: LICENSE
+  summary: 'batemaneq provides a Python package for evaluating the Bateman equation'
+  doc_url: https://bjodah.github.io/{{ name }}/latest
+
+extra:
+  recipe-maintainers:
+    - bjodah
