@@ -62,7 +62,7 @@ def _yi1(i, p, a, binom):
 
 
 @pytest.mark.parametrize('p', (0, 1, 2, 3, 4, 5))
-def test_basteman_parent(p):
+def test_bateman_parent(p):
     from scipy.special import binom
     from math import log
     N = 32

@@ -2,7 +2,7 @@ build:
   image: bjodah/bjodahimg16:v1.3
   commands:
     - ./scripts/ci.sh
-    - (cd examples/; ipython2 nbconvert --to=html --ExecutePreprocessor.enabled=True --ExecutePreprocessor.timeout=300 *.ipynb)
+    - (cd examples/; ipython3 nbconvert --to=html --ExecutePreprocessor.enabled=True --ExecutePreprocessor.timeout=300 *.ipynb)
     - (cd examples/; ../scripts/render_index.sh *.html)
     - python3 -m pip install sphinx sphinx_rtd_theme
     - ./scripts/generate_docs.sh

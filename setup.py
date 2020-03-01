@@ -5,9 +5,11 @@
 
 import io
 import os
+import re
 import shutil
 import sys
 from setuptools import setup
+from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
 
 
@@ -30,7 +32,6 @@ if len(sys.argv) > 1 and '--help' not in sys.argv[1:] and sys.argv[1] not in (
     sources = ['src/bateman_double.cpp', 'batemaneq/_bateman_double'+ext]
     ext_modules = [
         Extension('batemaneq._bateman_double', sources, language='c++',
-                  extra_compile_args=['-std=c++11'],
                   include_dirs=[np.get_include(), './include'])
     ]
     if USE_CYTHON:
@@ -57,6 +58,28 @@ else:
     TAGGED_RELEASE = False
     # read __version__ attribute from release.py:
     exec(io.open(release_py_path, encoding='utf-8').read())
+
+
+class BuildExt(build_ext):
+    """A custom build extension for adding compiler-specific options."""
+    c_opts = {
+        'msvc': ['/EHsc'],
+        'unix': [],
+    }
+
+    def build_extensions(self):
+        ct = self.compiler.compiler_type
+        opts = self.c_opts.get(ct, [])
+        if ct == 'unix':
+            opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
+            opts.append('-std=c++11')
+            if sys.platform == 'darwin' and re.search("clang", self.compiler.compiler[0]) is not None:
+                opts += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
+        elif ct == 'msvc':
+            opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
+        for ext in self.extensions:
+            ext.extra_compile_args = opts
+        build_ext.build_extensions(self)
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -92,6 +115,7 @@ setup_kwargs = dict(
     install_requires=['numpy'] + (['cython'] if USE_CYTHON else []),
     setup_requires=['numpy'] + (['cython'] if USE_CYTHON else []),
     ext_modules=ext_modules,
+    cmdclass={'build_ext': BuildExt},
     zip_safe=False,
 )
 
