@@ -1,4 +1,5 @@
-recursive-include include *.hpp *.h *.pyx
+recursive-include include *.hpp *.h
+include batemaneq/_bateman_double.pyx
 include AUTHORS
 include CHANGES.rst
 include LICENSE
