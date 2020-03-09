@@ -1,3 +1,7 @@
+v0.2.1
+======
+- Distribute Cython source.
+
 v0.2
 ====
 - Better reshaping for numpy arrays.
