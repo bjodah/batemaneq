@@ -1,20 +1,23 @@
-build:
-  image: bjodah/bjodahimg16:v1.3
-  commands:
-    - ./scripts/ci.sh
-    - (cd examples/; ipython3 nbconvert --to=html --ExecutePreprocessor.enabled=True --ExecutePreprocessor.timeout=300 *.ipynb)
-    - (cd examples/; ../scripts/render_index.sh *.html)
-    - python3 -m pip install sphinx sphinx_rtd_theme
-    - ./scripts/generate_docs.sh
-    - ./scripts/prepare_deploy.sh
+pipeline:
+  build:
+    image: bjodah/bjodahimg20dev:v1.0.3
+    environment:
+      - CPLUS_INCLUDE_PATH=/opt/boost_1_72_p/include
+    commands:
+      - CC=gcc-10   ./scripts/ci.sh
+      - CC=clang-10 ./scripts/ci.sh
+      - ./scripts/render_notebooks.sh examples/
+      - (cd examples/; ../scripts/render_index.sh *.html)
+      - ./scripts/generate_docs.sh
+      - ./scripts/prepare_deploy.sh
 
-deploy:
-
-  rsync:
-    host: hera.physchem.kth.se
-    user: batemaneq
+  deploy:
+    image: drillster/drone-rsync
+    when:
+      event: [push]
+    hosts: [ "hera.physchem.kth.se" ]
     port: 22
-    source: deploy/
-    target: ~
-    recursive: true
-    delete: false
+    user: batemaneq
+    secrets: [ rsync_key ]  # secret only set from event "push" not "pull_request"
+    source: ./deploy/public_html
+    target: ~/
