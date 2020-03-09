@@ -1,3 +1,7 @@
+v0.2.2
+======
+- Fix MANIFEST
+
 v0.2.1
 ======
 - Distribute Cython source.
